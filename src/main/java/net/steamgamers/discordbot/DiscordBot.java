@@ -49,10 +49,10 @@ public class DiscordBot {
             guilds.put(g.getId(), newGuild);
         }
         Logger.getLogger("com.github.koraktor.steamcondenser").setLevel(Level.WARNING);
-        ServerUpdateThread mg = new ServerUpdateThread(jda.getGuildById("169274032355540992").getTextChannelById("535257722506182675"), "66.150.121.70",27016, "MiniGames");
-        ServerUpdateThread jb = new ServerUpdateThread(jda.getGuildById("169274032355540992").getTextChannelById("535257722506182675"), "70.42.74.162",27017, "JailBreak");
-        ServerUpdateThread ttt = new ServerUpdateThread(jda.getGuildById("169274032355540992").getTextChannelById("535257722506182675"), "66.150.121.70",27015,"Terrorist Town");
-        ServerUpdateThread ze = new ServerUpdateThread(jda.getGuildById("169274032355540992").getTextChannelById("535257722506182675"), "70.42.74.162",27015, "Zombie Escape");
+        ServerUpdateThread mg = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897360631758849"), "66.150.121.70",27016, "MiniGames");
+        ServerUpdateThread jb = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534896149283340308"), "70.42.74.162",27017, "Jailbreak");
+        ServerUpdateThread ttt = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897335235248128"), "66.150.121.70",27015,"Terrorist Town");
+        ServerUpdateThread ze = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534890763452940298"), "70.42.74.162",27015, "Zombie Escape");
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(mg, 0, 15, TimeUnit.SECONDS);
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(jb, 5, 15, TimeUnit.SECONDS);
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(ttt, 10, 15, TimeUnit.SECONDS);

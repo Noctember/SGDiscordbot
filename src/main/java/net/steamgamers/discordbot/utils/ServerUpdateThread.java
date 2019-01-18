@@ -67,9 +67,7 @@ public class ServerUpdateThread implements Runnable {
                 Jsoup.connect(url).get();
             } catch (HttpStatusException | ConnectException e) {
                 url = "https://image.gametracker.com/images/maps/160x120/csgo/" + StringUtils.substring(map, 0, 31) + ".jpg";
-            } catch (UnsupportedMimeTypeException e) {
-                // This is to be expected normally because JSoup can't parse a URL serving only a static image
-            }
+            } catch (UnsupportedMimeTypeException e) {}
 
             if (currentPlayers > maxPlayers) {
                 currentPlayers = maxPlayers;

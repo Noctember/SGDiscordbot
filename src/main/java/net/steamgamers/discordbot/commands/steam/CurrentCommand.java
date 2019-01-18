@@ -26,30 +26,30 @@ public class CurrentCommand extends Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         Guild guild = event.getGuild();
-//        if (guild.getId().equals("399344695970496512")) {
-        if (guild.getId().equals("169274032355540992")) {
+        if (guild.getId().equals("399344695970496512")) {
+//        if (guild.getId().equals("169274032355540992")) { FOR TESTING
             try {
                 SourceServer server = null;
 
                 switch (event.getTextChannel().getId()) {
                     //ZE
-//                    case "534890763452940298":
-                    case "169274032355540992":
+                    case "534890763452940298":
+//                    case "169274032355540992":
                         server = new SourceServer(InetAddress.getByName("70.42.74.162"), 27015);
                         break;
                     //JB
-//                    case "534896149283340308":
-                    case "337155536917233666":
+                    case "534896149283340308":
+//                    case "337155536917233666":
                         server = new SourceServer(InetAddress.getByName("70.42.74.162"), 27017);
                         break;
                     //TTT
-//                    case "534897335235248128":
-                    case "347298379568513024":
+                    case "534897335235248128":
+//                    case "347298379568513024":
                         server = new SourceServer(InetAddress.getByName("66.150.121.70"), 27015);
                         break;
                     //MG
-//                    case "534897360631758849":
-                    case "429500597511782406":
+                    case "534897360631758849":
+//                    case "429500597511782406":
                         server = new SourceServer(InetAddress.getByName("66.150.121.70"), 27016);
                         break;
                 }
@@ -57,9 +57,7 @@ public class CurrentCommand extends Command {
                     server.initialize();
                 } catch (Exception ex) {
                 }
-//                Thread.sleep(1000);
                 String serverInfo = server.toString();
-//                System.out.println(serverInfo);
                 String map = serverInfo.split("mapName: ")[1].split("Players:")[0].replace("\n", "");
                 String serverName = serverInfo.split("serverName: ")[1].split("  secure: ")[0].replace("\n", "");
                 int currentPlayers = Integer.parseInt(serverInfo.split("numberOfPlayers: ")[1].split(" ")[0].replace("\n", ""));
