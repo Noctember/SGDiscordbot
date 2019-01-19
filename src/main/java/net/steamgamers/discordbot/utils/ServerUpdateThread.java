@@ -78,7 +78,7 @@ public class ServerUpdateThread implements Runnable {
 
             if (lastMap == null || !lastMap.equalsIgnoreCase(map)) {
                 timestamp = Instant.now();
-                if(msgID.isEmpty())
+                if(!msgID.isEmpty())
                     name.deleteMessagesByIds(Collections.singleton(msgID)).queue();
 
                 EmbedBuilder embed = new EmbedBuilder()
