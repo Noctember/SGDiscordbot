@@ -12,6 +12,7 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -77,7 +78,8 @@ public class ServerUpdateThread implements Runnable {
 
             if (lastMap == null || !lastMap.equalsIgnoreCase(map)) {
                 timestamp = Instant.now();
-
+                if(msgID.isEmpty())
+                    name.deleteMessagesByIds(Collections.singleton(msgID)).queue();
 
                 EmbedBuilder embed = new EmbedBuilder()
                         .setColor(UtilString.averageColorFromURL(new URL(url), true))
