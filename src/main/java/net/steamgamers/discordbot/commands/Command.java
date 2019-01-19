@@ -1,10 +1,7 @@
 package net.steamgamers.discordbot.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
@@ -27,6 +24,9 @@ public abstract class Command {
     public abstract void action(String[] args, MessageReceivedEvent event);
 
     protected void reply(TextChannel channel, String msg) {
+        channel.sendMessage(msg).queue();
+    }
+    protected void reply(TextChannel channel, MessageEmbed msg) {
         channel.sendMessage(msg).queue();
     }
 }

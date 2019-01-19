@@ -35,10 +35,6 @@ public class SLogger {
     public static Logger errorLogger = Logger.getLogger("Error");
     public static Logger commandLogger = Logger.getLogger("command");
 
-    /**
-     * Logging when bot status changed
-     * @param msg the message for logging
-     */
     public static void updateLog(String msg) {
         try {
             FileHandler fh = new FileHandler("main.txt", true);
@@ -56,13 +52,6 @@ public class SLogger {
         }
     }
 
-    /**
-     * Logging when an exception is thrown
-     * @param ex the Exception for logging
-     * @param obj the event/class for getting guild name/author name
-     * @param at the exception source (class name)
-     * @param cause cause of the exception
-     */
     public static void errorLog(Exception ex, Object obj, String at, String cause) {
         try {
             FileHandler fhe = new FileHandler("error.txt", true);
@@ -71,7 +60,6 @@ public class SLogger {
             fhe.setFormatter(formatter);
             errorLogger.setUseParentHandlers(false);
 
-            /* Get where the exception is from */
             String from;
             if(obj instanceof MessageReceivedEvent) {
                 MessageReceivedEvent event = (MessageReceivedEvent) obj;
@@ -82,7 +70,6 @@ public class SLogger {
                 else
                     from = ": Unknown (From unknown channel type.)";
 
-                /* Log the exception in DiscordBot Server #bug_report */
                 handleExceptionLog(ex, event, toHasteBin(stackToString(ex)));
             } else if(obj != null) {
                 from = "Class: " + obj.toString();
@@ -90,7 +77,6 @@ public class SLogger {
                 from = "Unknown";
             }
 
-            /* Log the exception in local file */
             Logger.getGlobal().log(Level.WARNING, "Error in " + at + " from " + from);
             errorLogger.log(Level.WARNING, "From" + from + "\n\t Cause: " + at + " -> " + cause, ex);
             fhe.close();
@@ -102,12 +88,6 @@ public class SLogger {
         }
     }
 
-    /**
-     * Logging when a command is called.
-     * @param event the event for getting guild name/author name
-     * @param command the command called
-     * @param description the description of this command call
-     */
     public static void commandLog(MessageReceivedEvent event, String command, String description) {
         try {
             FileHandler fhc = new FileHandler("command.txt", true);
@@ -133,11 +113,6 @@ public class SLogger {
         }
     }
 
-    /**
-     * Return the stack trace of an exception
-     * @param ex
-     * @return
-     */
     public static String stackToString(Exception ex) {
         StringWriter sw = new StringWriter();
         PrintWriter w = new PrintWriter(sw);
@@ -145,12 +120,6 @@ public class SLogger {
         return sw.toString();
     }
 
-    /**
-     * Paste a String to HasteBin and return the URL
-     *
-     * @param message The string to be sent in the body of the POST request
-     * @return A formatted URL which links to the pasted file
-     */
     public static String toHasteBin(String message) {
         try {
             JsonNode obj = Unirest.post("https://hastebin.com/documents")
@@ -168,12 +137,6 @@ public class SLogger {
         return null;
     }
 
-    /**
-     * Log the exception to DiscordBot server's #bug-report
-     * @param ex
-     * @param e
-     * @param hasteBinURL
-     */
     public static void handleExceptionLog(Exception ex, MessageReceivedEvent e, String hasteBinURL)
     {
         String user = "", id = "", from = "", from2 = "None", channel = "";
@@ -194,7 +157,7 @@ public class SLogger {
         error.addField(from, from2, true)
                 .addField("Channel", channel, true)
                 .addField("Stack Trace", "**[" + hasteBinURL + "]("+hasteBinURL+")**", true);
-//        DiscordBot.getGuild(Global.B_SERVER_ID).getTextChannelById(Global.B_SERVER_ERROR).sendMessage(error.build()).queue();
+//        DiscordBot.getGuild("169274032355540992").g("429500597511782406").sendMessage(error.build()).queue();
     }
 
     public static boolean errorResponseHandler(ErrorResponseException ere, MessageReceivedEvent e) {

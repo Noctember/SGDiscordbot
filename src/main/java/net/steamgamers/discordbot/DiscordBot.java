@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.steamgamers.discordbot.commands.Command;
 import net.steamgamers.discordbot.commands.steam.CurrentCommand;
+import net.steamgamers.discordbot.commands.steam.StatsCommand;
 import net.steamgamers.discordbot.listeners.CommandListener;
 import net.steamgamers.discordbot.listeners.CommandParser;
 import net.steamgamers.discordbot.utils.ServerUpdateThread;
@@ -64,6 +65,7 @@ public class DiscordBot {
 
     private static void setupCommands() {
         commands.put("current", new CurrentCommand());
+//        commands.put("ttt", new StatsCommand("ttt"));
     }
 
     public static GuildWrapper getGuild(Guild guild) {
