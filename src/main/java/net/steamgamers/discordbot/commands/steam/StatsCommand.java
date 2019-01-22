@@ -38,7 +38,7 @@ public class StatsCommand extends Command {
                                     "`\nKills: `" + GameMEAPI.getTTTStats("kills", args[0])  +
                                     "`\nDeaths: `" + GameMEAPI.getTTTStats("deaths", args[0]) +
                                     "`\nFavorite gun: `" + GameMEAPI.getFavgunTTT("name", args[0])+"`")
-                                    .setTitle(GameMEAPI.getTTTStats("name", args[0]))
+                                    .setTitle(GameMEAPI.getTTTStats("name", args[0])+"'s TTT Stats")
                                     .setThumbnail(GameMEAPI.getTTTStats("avatar", args[0]));
                             reply(event.getTextChannel(), eb.build());
                         case "scrim":
@@ -48,7 +48,7 @@ public class StatsCommand extends Command {
                                     "`\nKills: `" + GameMEAPI.getScrimStats("kills", args[0])  +
                                     "`\nDeaths: `" + GameMEAPI.getScrimStats("deaths", args[0]) +
                                     "`\nFavorite gun: `" + GameMEAPI.getFavgunScrim("name", args[0])+"`")
-                                    .setTitle(GameMEAPI.getScrimStats("name", args[0]))
+                                    .setTitle(GameMEAPI.getScrimStats("name", args[0])+"'s Scrim Stats")
                                     .setThumbnail(GameMEAPI.getScrimStats("avatar", args[0]));
                             reply(event.getTextChannel(), eb.build());
                         case "ze":
@@ -58,7 +58,7 @@ public class StatsCommand extends Command {
                                     "`\nKills: `" + GameMEAPI.getZEStats("kills", args[0])  +
                                     "`\nDeaths: `" + GameMEAPI.getZEStats("deaths", args[0]) +
                                     "`\nFavorite gun: `" + GameMEAPI.getFavgunZE("name", args[0])+"`")
-                                    .setTitle(GameMEAPI.getZEStats("name", args[0]))
+                                    .setTitle(GameMEAPI.getZEStats("name", args[0])+"'s ZE Stats")
                                     .setThumbnail(GameMEAPI.getZEStats("avatar", args[0]));
                             reply(event.getTextChannel(), eb.build());
                         case "jb":
@@ -68,7 +68,7 @@ public class StatsCommand extends Command {
                                     "`\nKills: `" + GameMEAPI.getJBStats("kills", args[0])  +
                                     "`\nDeaths: `" + GameMEAPI.getJBStats("deaths", args[0]) +
                                     "`\nFavorite gun: `" + GameMEAPI.getFavgunJB("name", args[0])+"`")
-                                    .setTitle(GameMEAPI.getJBStats("name", args[0]))
+                                    .setTitle(GameMEAPI.getJBStats("name", args[0])+"'s JB Stats")
                                     .setThumbnail(GameMEAPI.getJBStats("avatar", args[0]));
                             reply(event.getTextChannel(), eb.build());
                         case "mg":
@@ -78,7 +78,7 @@ public class StatsCommand extends Command {
                                     "`\nKills: `" + GameMEAPI.getMGStats("kills", args[0])  +
                                     "`\nDeaths: `" + GameMEAPI.getMGStats("deaths", args[0]) +
                                     "`\nFavorite gun: `" + GameMEAPI.getFavgunMG("name", args[0])+"`")
-                                    .setTitle(GameMEAPI.getMGStats("name", args[0]))
+                                    .setTitle(GameMEAPI.getMGStats("name", args[0])+"'s MG Stats")
                                     .setThumbnail(GameMEAPI.getMGStats("avatar", args[0]));
                             reply(event.getTextChannel(), eb.build());
 
