@@ -70,10 +70,11 @@ public class CurrentCommand extends Command {
                 } catch (UnsupportedMimeTypeException e) {}
 
                 String players = currentPlayers + "/" + maxPlayers;
+                String playersl = String.join(", ", server.getPlayers().keySet());
                 EmbedBuilder embed = new EmbedBuilder()
                         .setColor(UtilString.averageColorFromURL(new URL(url), true))
                         .setTimestamp(Instant.now()).setThumbnail(url).setTitle(serverName)
-                        .setDescription("Now Playing: **" + map.replace("_", "\\_") + "**\nPlayers Online: **" + players + "**\n");
+                        .setDescription("Now Playing: **" + map.replace("_", "\\_") + "**\nPlayers Online: **" + players + "**\nOnline players: **`"+ playersl+"`**");
                 event.getTextChannel().sendMessage(embed.build()).queue();
                 server.disconnect();
             } catch (Exception ex) {

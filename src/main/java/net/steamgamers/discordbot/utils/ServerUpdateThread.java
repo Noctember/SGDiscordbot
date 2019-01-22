@@ -3,6 +3,7 @@ package net.steamgamers.discordbot.utils;
 import com.github.koraktor.steamcondenser.steam.servers.SourceServer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.steamgamers.discordbot.logging.SLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -59,7 +60,12 @@ public class ServerUpdateThread implements Runnable {
             }
 
             String serverInfo = server.toString();
-            String map = serverInfo.split("mapName: ")[1].split("Players:")[0].replace("\n", "");
+            String map;
+            try {
+                map = serverInfo.split("mapName: ")[1].split("Players:")[0].replace("\n", "");
+            } catch (ArrayIndexOutOfBoundsException ioob) {
+                map = "ERROR";
+            }
             String serverName = serverInfo.split("serverName: ")[1].split("  secure: ")[0].replace("\n", "");
             int currentPlayers = Integer.parseInt(serverInfo.split("numberOfPlayers: ")[1].split(" ")[0].replace("\n", ""));
             int maxPlayers = Integer.parseInt(serverInfo.split("maxPlayers: ")[1].split(" ")[0].replace("\n", ""));
@@ -79,7 +85,9 @@ public class ServerUpdateThread implements Runnable {
             if (lastMap == null || !lastMap.equalsIgnoreCase(map)) {
                 timestamp = Instant.now();
                 if(!msgID.isEmpty())
-                    name.deleteMessagesByIds(Collections.singleton(msgID)).queue();
+                    name.getMessageById(msgID).queue((msg) -> {
+                        msg.delete().submit();
+                    });
 
                 EmbedBuilder embed = new EmbedBuilder()
                         .setColor(UtilString.averageColorFromURL(new URL(url), true))
@@ -97,14 +105,14 @@ public class ServerUpdateThread implements Runnable {
                             .setTimestamp(timestamp).setThumbnail(url).setTitle(serverName)
                             .setDescription("Now Playing: **" + map.replace("_", "\\_") + "**\nPlayers Online: **" + players + "**\nQuick Join: **steam://connect/" + serverIP + ":" + port + "**");
                     name.getMessageById(msgID).queue((msg) -> {
-                        msg.editMessage(embed.build()).queue();
+                        msg.editMessage(embed.build()).submit();
                     });
                 }
             }
 
 //            }
         } catch (Exception e) {
-            e.printStackTrace();
+            SLogger.handleExceptionLog(e, null, SLogger.stackToString(e));
         }
     }
 }

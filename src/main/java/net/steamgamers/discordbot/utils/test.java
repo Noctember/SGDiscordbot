@@ -19,6 +19,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 /**
  * This file is a part of [SG] DiscordBot, located on net.steamgamers.discordbot.utils
@@ -28,35 +29,37 @@ import java.util.Collections;
  */
 public class test {
     public static void main(String[] args) throws Exception {
+        Pattern p = Pattern.compile("^STEAM_[0-5]:[01]:\\d+$");
+        System.out.println(p.matcher("STEAM_0:1:151420642").find());
 //        XMLReader myReader = XMLReaderFactory.createXMLReader();
 //        myReader.setContentHandler(handler);
 //        myReader.parse(new InputSource(new URL("http://steamgamers.gameme.com/api/playerinfo/STEAM_0:1:151420642").openStream()));
-        try {
-            DOMParser parser = new DOMParser();
-            parser.parse("http://steamgamers.gameme.com/api/playerinfo/csgo7/STEAM_0:1:151420642");
-            Document doc = parser.getDocument();
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //pretty printing
-            transformer.transform(domSource, result);
-            System.out.println("XML IN String format is: \n" + writer.toString());
-            NodeList nodes = doc.getElementsByTagName("*");
-            System.out.println("There are " + nodes.getLength() +
-                    "  elements.");
-            for (int in = 0; in < nodes.getLength(); in++) {
-                listAllAttributes((Element) nodes.item(in));
-
-            }
-
-//            listAllAttributes((Element) nodes.item());
-//            listAllAttributes((Element) nodes.item(0));
-//            listAllAttributes((Element) nodes.item(0));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
+//        try {
+//            DOMParser parser = new DOMParser();
+//            parser.parse("http://steamgamers.gameme.com/api/playerinfo/csgo7/STEAM_0:1:151420642");
+//            Document doc = parser.getDocument();
+//            DOMSource domSource = new DOMSource(doc);
+//            StringWriter writer = new StringWriter();
+//            StreamResult result = new StreamResult(writer);
+//            TransformerFactory tf = TransformerFactory.newInstance();
+//            Transformer transformer = tf.newTransformer();
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //pretty printing
+//            transformer.transform(domSource, result);
+//            System.out.println("XML IN String format is: \n" + writer.toString());
+//            NodeList nodes = doc.getElementsByTagName("*");
+//            System.out.println("There are " + nodes.getLength() +
+//                    "  elements.");
+//            for (int in = 0; in < nodes.getLength(); in++) {
+//                listAllAttributes((Element) nodes.item(in));
+//
+//            }
+//
+////            listAllAttributes((Element) nodes.item());
+////            listAllAttributes((Element) nodes.item(0));
+////            listAllAttributes((Element) nodes.item(0));
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
 //        System.out.println(doc.getDocumentElement().getAttributeNode("playerinfo"));
 //        System.out.println(myReader.get);
         /*NodeList nodeList = doc.getElementsByTagName("*");

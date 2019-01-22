@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -20,7 +21,41 @@ public class UtilString {
     public static String getMessage(String[] args, int min) {
         return Arrays.stream(args).skip(min).collect(Collectors.joining(" ")).trim();
     }
-
+    public static String formatDurationToString(Long duration) {
+        TimeUnit u = TimeUnit.MILLISECONDS;
+        long hours = u.toHours(duration) % 24;
+        long minutes = u.toMinutes(duration) % 60;
+        long seconds = u.toSeconds(duration) % 60;
+        if (hours > 0) {
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            return String.format("%02d:%02d", minutes, seconds);
+        }
+    }
+    public static String formatTime(Long time) {
+        TimeUnit u = TimeUnit.MILLISECONDS;
+        long days = u.toDays(time) % 7;
+        long hours = u.toHours(time) % 24;
+        long minutes = u.toMinutes(time) % 60;
+        long seconds = u.toSeconds(time) % 60;
+        String day = "";
+        String hour = "";
+        String minute = "";
+        String second = "";
+        if (days > 0) {
+            day = String.format("%2d day(s), ", days);
+        }
+        if (hours > 0) {
+            hour = String.format("%2d hour(s), ", hours);
+        }
+        if (minutes > 0) {
+            minute = String.format("%2d minute(s), ", minutes);
+        }
+        if (seconds > 0) {
+            second = String.format("%2d second(s)", seconds);
+        }
+        return day + hour + minute + second + " ";
+    }
     public static Color averageColorFromURL(URL url, boolean handleExceptions) {
         BufferedImage image = null;
         try {

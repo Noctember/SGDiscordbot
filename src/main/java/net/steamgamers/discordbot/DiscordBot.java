@@ -5,12 +5,15 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.steamgamers.discordbot.commands.Command;
+import net.steamgamers.discordbot.commands.channels.VCCommand;
+import net.steamgamers.discordbot.commands.mod.PruneCommand;
 import net.steamgamers.discordbot.commands.steam.CurrentCommand;
 import net.steamgamers.discordbot.commands.steam.StatsCommand;
 import net.steamgamers.discordbot.listeners.CommandListener;
 import net.steamgamers.discordbot.listeners.CommandParser;
 import net.steamgamers.discordbot.utils.ServerUpdateThread;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +29,7 @@ import java.util.logging.Logger;
 public class DiscordBot {
     public static HashMap<String, Command> commands = new HashMap();
     private static DiscordBot instance;
-    private static JDA jda;
+    public static JDA jda;
     private static HashMap<String, GuildWrapper> guilds = new HashMap<>();
     public static final CommandParser parser = new CommandParser();
 
@@ -37,14 +40,14 @@ public class DiscordBot {
     public static void main(String[] args) throws Exception {
         instance = new DiscordBot();
         jda = new JDABuilder(AccountType.BOT)
-                .setToken("NTM0OTI4ODM2OTcwNjc2MjI0.DyAu-w.0K-1NI_k3zcqtLXQEW0o5RL1rVU")
+                .setToken("NTM0OTI4ODM2OTcwNjc2MjI0.DyQnWg.hAD1T8vmAB3ykxYC959Us6d04rs")
                 .addEventListeners(new CommandListener())
                 .setAutoReconnect(true)
                 .setMaxReconnectDelay(300)
                 .setEnableShutdownHook(true)
                 .build();
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         for (Guild g : jda.getGuilds()) {
             GuildWrapper newGuild = new GuildWrapper(jda, /*DiscordBot.playerManager,*/ g);
             guilds.put(g.getId(), newGuild);
@@ -58,14 +61,17 @@ public class DiscordBot {
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(jb, 5, 15, TimeUnit.SECONDS);
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(ttt, 10, 15, TimeUnit.SECONDS);
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(ze, 15, 15, TimeUnit.SECONDS);
-
-
         setupCommands();
     }
 
     private static void setupCommands() {
         commands.put("current", new CurrentCommand());
-//        commands.put("ttt", new StatsCommand("ttt"));
+//        commands.put("vc", new VCCommand());
+//        commands.put("prune", new PruneCommand());
+        commands.put("ttt", new StatsCommand("ttt"));
+        commands.put("mg", new StatsCommand("mg"));
+        commands.put("jb", new StatsCommand("jb"));
+        commands.put("scrim", new StatsCommand("scrim"));
     }
 
     public static GuildWrapper getGuild(Guild guild) {

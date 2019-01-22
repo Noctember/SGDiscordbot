@@ -157,7 +157,7 @@ public class SLogger {
         error.addField(from, from2, true)
                 .addField("Channel", channel, true)
                 .addField("Stack Trace", "**[" + hasteBinURL + "]("+hasteBinURL+")**", true);
-//        DiscordBot.getGuild("169274032355540992").g("429500597511782406").sendMessage(error.build()).queue();
+        DiscordBot.jda.getGuildById("169274032355540992").getTextChannelById("429500597511782406").sendMessage(error.build()).queue();
     }
 
     public static boolean errorResponseHandler(ErrorResponseException ere, MessageReceivedEvent e) {
@@ -165,18 +165,18 @@ public class SLogger {
         String error = Emoji.ERROR + " ";
         switch (ere.getErrorResponse()) {
             case CANNOT_SEND_TO_USER:
-                e.getChannel().sendMessage(error+"Impossible d'envoyer un  message à "+e.getAuthor().getName()).queue();
+                e.getChannel().sendMessage(error+"I can not send message to "+e.getAuthor().getName()).queue();
                 break;
             case EMBED_DISABLED:
-                e.getChannel().sendMessage(error+"Activez les embeds pour que je puisse parler librement.").queue();
+                e.getChannel().sendMessage(error+"Please enable embed so I can talk freely.").queue();
                 break;
             case INVALID_BULK_DELETE:
             case INVALID_BULK_DELETE_MESSAGE_AGE:
-                e.getChannel().sendMessage(error+"Erreur lors de la suppression des messages. "+
-                        " Les messages peuvent être trop anciens (plus de 2 semaines).").queue();
+                e.getChannel().sendMessage(error+"Error while deleting messages.\n" +
+                        "The messages might be too old (older than 2 weeks).").queue();
                 break;
             case MISSING_ACCESS:
-                e.getChannel().sendMessage(error+"Accès manquant.").queue();
+                e.getChannel().sendMessage(error+"Missing access.").queue();
                 break;
             case UNKNOWN_GUILD:
             case UNKNOWN_CHANNEL:
