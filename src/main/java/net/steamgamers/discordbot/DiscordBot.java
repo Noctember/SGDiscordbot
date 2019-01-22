@@ -71,6 +71,7 @@ public class DiscordBot {
         commands.put("ttt", new StatsCommand("ttt"));
         commands.put("mg", new StatsCommand("mg"));
         commands.put("jb", new StatsCommand("jb"));
+        commands.put("ze", new StatsCommand("ze"));
         commands.put("scrim", new StatsCommand("scrim"));
     }
 
