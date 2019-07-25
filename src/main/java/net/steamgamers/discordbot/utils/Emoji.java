@@ -60,6 +60,7 @@ public class Emoji {
     public final static String STARS = EmojiParser.parseToUnicode(":stars:");
     public final static String TROPHY = EmojiParser.parseToUnicode(":trophy:");
     public final static String BOOK = EmojiParser.parseToUnicode(":book:");
+    public static final String MAP = EmojiParser.parseToUnicode(":map:");
     public static String SEARCH = EmojiParser.parseToUnicode(":mag:");
     public final static String GAME = EmojiParser.parseToUnicode(":video_game:");
 

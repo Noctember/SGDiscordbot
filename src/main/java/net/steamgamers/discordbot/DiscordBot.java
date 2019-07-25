@@ -3,19 +3,26 @@ package net.steamgamers.discordbot;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.steamgamers.discordbot.commands.Command;
-import net.steamgamers.discordbot.commands.channels.VCCommand;
-import net.steamgamers.discordbot.commands.mod.PruneCommand;
+import net.steamgamers.discordbot.commands.restricted.EvalCommand;
+import net.steamgamers.discordbot.commands.restricted.PinCommand;
 import net.steamgamers.discordbot.commands.steam.CurrentCommand;
+import net.steamgamers.discordbot.commands.steam.RestartThreadCommand;
+import net.steamgamers.discordbot.commands.steam.Stats2Command;
 import net.steamgamers.discordbot.commands.steam.StatsCommand;
 import net.steamgamers.discordbot.listeners.CommandListener;
 import net.steamgamers.discordbot.listeners.CommandParser;
+import net.steamgamers.discordbot.utils.Emoji;
 import net.steamgamers.discordbot.utils.ServerUpdateThread;
 
-import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +34,15 @@ import java.util.logging.Logger;
  * Created the 2019-01-15 at 21:52.
  */
 public class DiscordBot {
-    public static HashMap<String, Command> commands = new HashMap();
-    private static DiscordBot instance;
-    public static JDA jda;
-    private static HashMap<String, GuildWrapper> guilds = new HashMap<>();
     public static final CommandParser parser = new CommandParser();
+    public static HashMap<String, Command> commands = new HashMap();
+    public static JDA jda;
+    public static ServerUpdateThread mg;
+    public static ServerUpdateThread ttt;
+    public static ServerUpdateThread jb;
+    public static ServerUpdateThread ze;
+    private static DiscordBot instance;
+    private static HashMap<String, GuildWrapper> guilds = new HashMap<>();
 
     private DiscordBot() {
 
@@ -53,26 +64,40 @@ public class DiscordBot {
             guilds.put(g.getId(), newGuild);
         }
         Logger.getLogger("com.github.koraktor.steamcondenser").setLevel(Level.WARNING);
-        ServerUpdateThread mg = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897360631758849"), "66.150.121.70",27016, "MiniGames");
-        ServerUpdateThread jb = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534896149283340308"), "70.42.74.162",27017, "Jailbreak");
-        ServerUpdateThread ttt = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897335235248128"), "66.150.121.70",27015,"Terrorist Town");
-        ServerUpdateThread ze = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534890763452940298"), "70.42.74.162",27015, "Zombie Escape");
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(mg, 0, 15, TimeUnit.SECONDS);
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(jb, 5, 15, TimeUnit.SECONDS);
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(ttt, 10, 15, TimeUnit.SECONDS);
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(ze, 15, 15, TimeUnit.SECONDS);
+        mg = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897360631758849"), "66.150.121.70", 27016, "MiniGames");
+        jb = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534896149283340308"), "70.42.74.162", 27017, "Jailbreak");
+        ttt = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534897335235248128"), "66.150.121.70", 27015, "Terrorist Town");
+        ze = new ServerUpdateThread(jda.getGuildById("399344695970496512").getTextChannelById("534890763452940298"), "66.70.180.186", 27015, "Zombie Escape");
+
+//        scheduler.scheduleAtFixedRate(mg, 0, 15, TimeUnit.SECONDS);
+//        scheduler.scheduleAtFixedRate(jb, 0, 15, TimeUnit.SECONDS);
+//        scheduler.scheduleAtFixedRate(ttt,0,15, TimeUnit.SECONDS);
+//        scheduler.scheduleAtFixedRate(ze, 0,15, TimeUnit.SECONDS);
+
         setupCommands();
+
+        while(true) {
+            mg.run();
+            ze.run();
+            jb.run();
+            ttt.run();
+            Thread.sleep(30*1000);
+        }
     }
 
     private static void setupCommands() {
-        commands.put("current", new CurrentCommand());
 //        commands.put("vc", new VCCommand());
 //        commands.put("prune", new PruneCommand());
+        commands.put("current", new CurrentCommand());
         commands.put("ttt", new StatsCommand("ttt"));
         commands.put("mg", new StatsCommand("mg"));
         commands.put("jb", new StatsCommand("jb"));
         commands.put("ze", new StatsCommand("ze"));
         commands.put("scrim", new StatsCommand("scrim"));
+        commands.put("restart",  new RestartThreadCommand());
+//        commands.put("prof", new Stats2Command());
+        commands.put("eval", new EvalCommand());
+        commands.put("pin", new PinCommand());
     }
 
     public static GuildWrapper getGuild(Guild guild) {

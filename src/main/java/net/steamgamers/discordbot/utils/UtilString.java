@@ -33,26 +33,28 @@ public class UtilString {
         }
     }
     public static String formatTime(Long time) {
-        TimeUnit u = TimeUnit.MILLISECONDS;
-        long days = u.toDays(time) % 7;
-        long hours = u.toHours(time) % 24;
-        long minutes = u.toMinutes(time) % 60;
-        long seconds = u.toSeconds(time) % 60;
+        if(time == null)
+            return "N/A";
+        TimeUnit u = TimeUnit.SECONDS;
+        long days = u.toDays(time);
+        long hours = u.toHours(time) - (days * 24);
+        long minutes = u.toMinutes(time) - (u.toHours(time) * 60) ;
+        long seconds = u.toSeconds(time) - (u.toMinutes(time) * 60);
         String day = "";
-        String hour = "";
-        String minute = "";
-        String second = "";
+        String hour = "00:";
+        String minute = "00:";
+        String second = "00";
         if (days > 0) {
-            day = String.format("%2d day(s), ", days);
+            day = String.format("%2d days ", days);
         }
         if (hours > 0) {
-            hour = String.format("%2d hour(s), ", hours);
+            hour = String.format("%2d:", hours);
         }
         if (minutes > 0) {
-            minute = String.format("%2d minute(s), ", minutes);
+            minute = String.format("%2d:", minutes);
         }
         if (seconds > 0) {
-            second = String.format("%2d second(s)", seconds);
+            second = String.format("%2d hours", seconds);
         }
         return day + hour + minute + second + " ";
     }

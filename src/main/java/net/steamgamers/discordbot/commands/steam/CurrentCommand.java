@@ -15,6 +15,8 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.time.Instant;
+import java.util.StringJoiner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This file is a part of [SG] DiscordBot, located on net.steamgamers.discordbot.commands.steam
@@ -32,14 +34,17 @@ public class CurrentCommand extends Command {
                 SourceServer server = null;
 
                 switch (event.getTextChannel().getId()) {
-                    //ZE
+                    //ZE534890763452940298
                     case "534890763452940298":
 //                    case "169274032355540992":
-                        server = new SourceServer(InetAddress.getByName("70.42.74.162"), 27015);
+                        System.out.println("ZE");
+                        server = new SourceServer(InetAddress.getByName("66.70.180.186"), 27015);
                         break;
                     //JB
                     case "534896149283340308":
 //                    case "337155536917233666":
+
+                        System.out.println("ZEASd");
                         server = new SourceServer(InetAddress.getByName("70.42.74.162"), 27017);
                         break;
                     //TTT
@@ -52,11 +57,14 @@ public class CurrentCommand extends Command {
 //                    case "429500597511782406":
                         server = new SourceServer(InetAddress.getByName("66.150.121.70"), 27016);
                         break;
+                     //SCRIM
+                    case "534897400708595740":
+                        server = new SourceServer(InetAddress.getByName("70.42.74.162"), 27016);
+                        break;
                 }
                 try {
                     server.initialize();
-                } catch (Exception ex) {
-                }
+                } catch (Exception ex) {ex.printStackTrace();}
                 String serverInfo = server.toString();
                 String map = serverInfo.split("mapName: ")[1].split("Players:")[0].replace("\n", "");
                 String serverName = serverInfo.split("serverName: ")[1].split("  secure: ")[0].replace("\n", "");
@@ -70,13 +78,18 @@ public class CurrentCommand extends Command {
                 } catch (UnsupportedMimeTypeException e) {}
 
                 String players = currentPlayers + "/" + maxPlayers;
-                String playersl = String.join(", ", server.getPlayers().keySet());
+//                String playersl = String.join(", ", server.getPlayers().keySet());
+                StringJoiner playersj = new StringJoiner(", " , "", "");
+                System.out.println(server.getPlayers().toString());
+                server.getPlayers().forEach((k,v)->playersj.add(v.getName()));
+                String playersl = playersj.toString();
                 EmbedBuilder embed = new EmbedBuilder()
                         .setColor(UtilString.averageColorFromURL(new URL(url), true))
                         .setTimestamp(Instant.now()).setThumbnail(url).setTitle(serverName)
                         .setDescription("Now Playing: **" + map.replace("_", "\\_") + "**\nPlayers Online: **" + players + "**\nOnline players: **`"+ playersl+"`**");
-                event.getTextChannel().sendMessage(embed.build()).queue();
+                event.getTextChannel().sendMessage(embed.build()).queue(message -> message.delete().queueAfter(2, TimeUnit.MINUTES));
                 server.disconnect();
+                event.getMessage().delete().submit();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
